@@ -7,6 +7,8 @@ import 'package:shopapp/consts/consts.dart';
 
 class AuthController extends GetxController{
 
+  var isloading = false.obs ; 
+
 var emailController = TextEditingController();
 var passwordController = TextEditingController();
 
@@ -39,7 +41,8 @@ storeUserData({name, password , email , }) async {
 'name' : name ,
 'password' : password , 
 'email ' : email ,
-'imgUrl' : ''
+'imgUrl' : '',
+'id' : currentUser!.uid
 
   });
 }

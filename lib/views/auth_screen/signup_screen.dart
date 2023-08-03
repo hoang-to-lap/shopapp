@@ -43,123 +43,128 @@ child: Column(children: [
   10.heightBox,
   Text("Sign up to ShopApp" , style: TextStyle(fontFamily: bold , fontSize: 22 , color: Colors.white),),
   5.heightBox,
-  Column(
-    children: [
-      customTextField(title: name , hint: nameHint , controller: nameController , isPass: false),
-      5.heightBox,
-      customTextField(title: email , hint: emailHint , controller: emailController , isPass: false),
-       5.heightBox,
-      //  customTextField2(),
-      customTextField(title: password , hint: passwordHint , controller: passwordController ,isPass: true),
-      5.heightBox,
-       customTextField(title: retypePassword , hint: retypePassword ,  controller: repasswordController ,isPass: true),
-      //  10.heightBox,
-      //  Align(
-      //   alignment: Alignment.centerRight,
-      //  child: TextButton(onPressed: (){
-
-      //  }, 
-      //  child: forgetPassword.text.make(),
-      //  ),
-      
-      //  ),
+  Obx( ()=> Column(
+      children: [
+        customTextField(title: name , hint: nameHint , controller: nameController , isPass: false),
         5.heightBox,
-        // ourButton().box.width(context.screenWidth - 50).make(),
-       
-      Row(
-        children: [
-          Checkbox(
-            checkColor: redColor,
-            value: isCheck, onChanged: (newvallue){
-              
-              setState(() {
-                 isCheck = newvallue;
-              });
-             
-          },
-          ),
-          10.widthBox,
-          Expanded(
-            child:  RichText(text: TextSpan(
-          children: [
-            TextSpan(
-              text: " I agree with" , style: TextStyle(
-                fontFamily: bold,
-                color: fontGrey,
-              ),
-            ),
-              TextSpan(
-              text: term, style: TextStyle(
-                fontFamily: bold,
-                fontWeight: FontWeight.w600,
-                color: redColor,
-              ),
-            ),
-              TextSpan(
-              text: " & " , style: TextStyle(
-                fontFamily: bold,
-                color: fontGrey,
-              ),
-            ),
-              TextSpan(
-              text: policy , style: TextStyle(
-                fontFamily: bold,
-                fontWeight: FontWeight.w600,
-                color: redColor,
-              ),
-            ),
-          ]
-            ),),
-          )
-        ],
-      ),
-       ourButton( color: isCheck== true ? redColor : fontGrey  ,title: signup , 
-        tetxColor: Colors.white , onPress: () async{
-if(isCheck != false){
-  try {
-    await controller.signupMethod(context: context , email: emailController.text , password: passwordController.text).then((value) {
-
-      return controller.storeUserData(
-        email: emailController.text,
-        password:  passwordController.text,
-        name: nameController.text,
-      );
-    }).then((value) {
-      VxToast.show(context, msg: loginalert);
-      Get.offAll(() => homeScreen());
-    });
-  } catch (e) {
-    auth.signOut();
-    VxToast.show(context, msg: e.toString());
-    
-  }
-}
-
-        } ,).box.width(context.screenWidth - 50).make(),
+        customTextField(title: email , hint: emailHint , controller: emailController , isPass: false),
+         5.heightBox,
+        //  customTextField2(),
+        customTextField(title: password , hint: passwordHint , controller: passwordController ,isPass: true),
         5.heightBox,
-        RichText(text: TextSpan(
+         customTextField(title: retypePassword , hint: retypePassword ,  controller: repasswordController ,isPass: true),
+        //  10.heightBox,
+        //  Align(
+        //   alignment: Alignment.centerRight,
+        //  child: TextButton(onPressed: (){
+  
+        //  }, 
+        //  child: forgetPassword.text.make(),
+        //  ),
+        
+        //  ),
+          5.heightBox,
+          // ourButton().box.width(context.screenWidth - 50).make(),
+         
+        Row(
           children: [
-            TextSpan(
-text: alreadyHaveAccount,
-style: TextStyle(
-  color: fontGrey,
-  fontFamily: bold,
-)
+            Checkbox(
+              checkColor: redColor,
+              value: isCheck, onChanged: (newvallue){
+                
+                setState(() {
+                   isCheck = newvallue;
+                });
+               
+            },
             ),
-             TextSpan(
-text: login,
-style: TextStyle(
-  color: redColor,
-  fontFamily: bold,
-)
-            ),
+            10.widthBox,
+            Expanded(
+              child:  RichText(text: TextSpan(
+            children: [
+              TextSpan(
+                text: " I agree with" , style: TextStyle(
+                  fontFamily: bold,
+                  color: fontGrey,
+                ),
+              ),
+                TextSpan(
+                text: term, style: TextStyle(
+                  fontFamily: bold,
+                  fontWeight: FontWeight.w600,
+                  color: redColor,
+                ),
+              ),
+                TextSpan(
+                text: " & " , style: TextStyle(
+                  fontFamily: bold,
+                  color: fontGrey,
+                ),
+              ),
+                TextSpan(
+                text: policy , style: TextStyle(
+                  fontFamily: bold,
+                  fontWeight: FontWeight.w600,
+                  color: redColor,
+                ),
+              ),
+            ]
+              ),),
+            )
           ],
         ),
-        ).onTap(() {
-          Get.back();
-        }),
-    ],
-  ).box.white.rounded.padding(EdgeInsets.all(15)).width(context.screenWidth-70).make(),
+      controller.isloading.value ? CircularProgressIndicator(
+        valueColor: AlwaysStoppedAnimation(redColor),
+      )  :   ourButton( color: isCheck== true ? redColor : fontGrey  ,title: signup , 
+          tetxColor: Colors.white , onPress: () async{
+  if(isCheck != false){
+    controller.isloading(true);
+    try {
+      await controller.signupMethod(context: context , email: emailController.text , password: passwordController.text).then((value) {
+  
+        return controller.storeUserData(
+          email: emailController.text,
+          password:  passwordController.text,
+          name: nameController.text,
+        );
+      }).then((value) {
+        VxToast.show(context, msg: loginalert);
+        Get.offAll(() => homeScreen());
+      });
+    } catch (e) {
+      auth.signOut();
+      VxToast.show(context, msg: e.toString());
+      controller.isloading(false);
+      
+    }
+  }
+  
+          } ,).box.width(context.screenWidth - 50).make(),
+          5.heightBox,
+          RichText(text: TextSpan(
+            children: [
+              TextSpan(
+  text: alreadyHaveAccount,
+  style: TextStyle(
+    color: fontGrey,
+    fontFamily: bold,
+  )
+              ),
+               TextSpan(
+  text: login,
+  style: TextStyle(
+    color: redColor,
+    fontFamily: bold,
+  )
+              ),
+            ],
+          ),
+          ).onTap(() {
+            Get.back();
+          }),
+      ],
+    ).box.white.rounded.padding(EdgeInsets.all(15)).width(context.screenWidth-70).make(),
+  ),
 
 ]),
       ),

@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:shopapp/consts/consts.dart';
 import 'package:shopapp/consts/list.dart';
 import 'package:shopapp/controller/auth_controller.dart';
+import 'package:shopapp/controller/profile_controller.dart';
 import 'package:shopapp/views/auth_screen/login_screen.dart';
 import 'package:shopapp/views/profilescreen/componets/detail_cart.dart';
+import 'package:shopapp/views/profilescreen/edit_profile_screen.dart';
 import 'package:shopapp/widget_common/bg_widget.dart';
 
 class profileScreen extends StatelessWidget {
@@ -12,6 +14,8 @@ class profileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    var controller = Get.put(profileController());
     return bgWidget(
       child: Scaffold(
         body: SafeArea(child: Column(children: [
@@ -21,7 +25,7 @@ class profileScreen extends StatelessWidget {
             child: Align(
               alignment: Alignment.topRight,
               child: const Icon(Icons.edit , color: whiteColor,)).onTap(() {
-                
+                Get.to(()=> EditProfileScreen());
               },),
           ),
 
