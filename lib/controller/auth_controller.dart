@@ -35,14 +35,17 @@ VxToast.show(context, msg: e.toString());
   return userCredential;
 }
 //storing data method
-storeUserData({name, password , email , }) async {
+storeUserData({name, password , email }) async {
   DocumentReference store = firestore.collection(userCollection).doc(currentUser!.uid);
   store.set({
 'name' : name ,
 'password' : password , 
 'email ' : email ,
 'imgUrl' : '',
-'id' : currentUser!.uid
+'id' : currentUser!.uid ,
+'cart_count' : "00",
+'order_count' : "00" ,
+'wishlish_count' : "00"
 
   });
 }
