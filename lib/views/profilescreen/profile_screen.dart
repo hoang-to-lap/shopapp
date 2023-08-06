@@ -44,7 +44,7 @@ else{
 
 
                 controller.nameController.text = data['name'];
-                controller.passController.text = data['password'];
+               
                 Get.to(()=> EditProfileScreen(data: data,));
               },),
           ),
@@ -57,15 +57,19 @@ else{
             padding: const EdgeInsets.symmetric(horizontal:8.0),
             child: Row(
               children: [
-                Image.asset(imgProfile2,width: 100, fit: BoxFit.cover,).box.roundedFull.clip(Clip.antiAlias).make(),
-                10.widthBox,
+
+data['imgUrl'] == ''? Image.asset(imgProfile2,width: 100, fit: BoxFit.cover,).box.roundedFull.clip(Clip.antiAlias).make()
+
+   :Image.network(data['imgUrl'],width: 100, fit: BoxFit.cover,).box.roundedFull.clip(Clip.antiAlias).make(),
+
+10.widthBox,
                 Expanded(child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   
                   children:[
                     "${data['name']}".text.fontFamily(semibold).white.make(),
                     5.heightBox,
-                  //  "${data['email']}".text.white.make(),
+                    "${data['email ']}".text.white.make(),
           
                 ] ,)),
                 OutlinedButton(

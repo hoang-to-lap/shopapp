@@ -65,3 +65,5 @@ const message = "Messages";
 //login 
 const loginalert = "Login Sucessful";
 const logoutalert = "Logout Sucessful";
+const oldpassword = " Old Password";
+const newpassword = "New Password";

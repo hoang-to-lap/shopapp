@@ -25,11 +25,18 @@ class EditProfileScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
         children: [
         
+        // if data img and controllerpath is empty
         
-        
-          controller.profilePath.isEmpty ? Image.asset(imgProfile2,width: 100, fit: BoxFit.cover,).box.roundedFull.clip(Clip.antiAlias).make() 
-          
-          : Image.file(File(controller.profilePath.value),
+    data['imgUrl'] == '' &&     controller.profilePath.isEmpty ? Image.asset(imgProfile2,width: 100, fit: BoxFit.cover,).box.roundedFull.clip(Clip.antiAlias).make() 
+          // if data is not empty but controllerpath is empty
+          : 
+          data['imgUrl'] != '' && controller.profilePath.isEmpty ?
+
+          Image.network(data['imgUrl'],width: 100,
+          fit: BoxFit.cover,
+          ).box.roundedFull.clip(Clip.antiAlias).make() :
+          // if both are empty
+          Image.file(File(controller.profilePath.value),
           width: 100,
           fit: BoxFit.cover,
           ).box.roundedFull.clip(Clip.antiAlias).make(),
@@ -47,10 +54,18 @@ class EditProfileScreen extends StatelessWidget {
             title: name,
             isPass: false,
            ),
+           10.heightBox,
            customTextField(
-            controller: controller.passController,
+            controller: controller.oldpassController,
             hint: passwordHint,
-            title: password ,
+            title: oldpassword ,
+            isPass: true,
+           ),
+           10.heightBox,
+            customTextField(
+            controller: controller.newpassController,
+            hint: passwordHint,
+            title: newpassword ,
             isPass: true,
            ),
         20.heightBox,
@@ -59,14 +74,43 @@ class EditProfileScreen extends StatelessWidget {
    ) :     SizedBox(
           width: context.screenWidth - 60,
            child: ourButton(color: redColor, onPress: () async{
+
+
+
+
+
 controller.isloading(true);
-      await      controller.uploadProfileImage();
+
+//if Image is not selected
+if(controller.profilePath.value.isNotEmpty){
+  await controller.uploadProfileImage();
+}else{
+   controller.profileImageLink = data['imgUrl'];
+}
+
+// if old pass word is matches database
+if(data['password']== controller.oldpassController.text){
+
+ await controller.ChangeAuthPassword(
+  email: data['email '],
+  password: controller.oldpassController.text,
+   newpassword : controller.newpassController.text,
+ );
+
+  await      controller.uploadProfileImage();
          await controller.updateProfile(
           imageUrl: controller.profileImageLink ,
           name:  controller.nameController.text,
-          password: controller.passController.text,
+          password: controller.newpassController.text,
          );
          VxToast.show(context, msg: "update");
+}else{
+  VxToast.show(context, msg: "wrong old password");
+  controller.isloading(false);
+}
+
+
+      
              },tetxColor: whiteColor,title: "Save"),
          ),
         
