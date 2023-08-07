@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shopapp/controller/product_controller.dart';
 import 'package:shopapp/views/categoryscreen/item_detail.dart';
 import 'package:shopapp/widget_common/bg_widget.dart';
 import 'package:shopapp/consts/consts.dart';
@@ -10,6 +11,9 @@ class CategoryDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+var controller = Get.find<ProductController>();
+
     return bgWidget(
       child: Scaffold(
         appBar: AppBar(
@@ -18,12 +22,15 @@ title: title!.text.fontFamily(bold).white.make(),
         body: Container(
           padding: EdgeInsets.all(12),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SingleChildScrollView(
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  children: List.generate(6, (index) => "baby clothing".text
+                  children: List.generate(controller.subcat.length,
+                  
+                   (index) => "${controller.subcat[index]}".text
                   .size(12)
                   .fontFamily(semibold)
                   .color(darkFontGrey).makeCentered().

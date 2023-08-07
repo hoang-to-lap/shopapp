@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shopapp/consts/consts.dart';
 import 'package:shopapp/consts/list.dart';
+import 'package:shopapp/controller/product_controller.dart';
 import 'package:shopapp/views/categoryscreen/category_detail.dart';
 import 'package:shopapp/widget_common/bg_widget.dart';
 
@@ -10,6 +11,8 @@ class CategoryScrenn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+var controller = Get.put(ProductController());
+
     return bgWidget(
     child: Scaffold(
 appBar: AppBar(
@@ -32,7 +35,9 @@ body: Container(
         "${categoryList[index]}".text.color(darkFontGrey).align(TextAlign.center).make(),
       ],
     ).box.white.rounded.clip(Clip.antiAlias).outerShadowSm.make().onTap(() {
-      
+      controller.getSubCategory(categoryList[index]);
+
+
       Get.to(()=> CategoryDetail(title: categoryList[index]));
     });
   }),
